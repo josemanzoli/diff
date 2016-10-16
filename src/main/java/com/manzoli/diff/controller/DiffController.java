@@ -128,7 +128,7 @@ public class DiffController {
 
 	@GetMapping(path = "/version")
 	@ResponseBody
-	@ApiOperation(value = "Return the version of the cte-classify project.", response = ApplicationVersion.class, httpMethod = "GET")
+	@ApiOperation(value = "Return the version of the project.", response = ApplicationVersion.class, httpMethod = "GET")
 	public ApplicationVersion checkVersion() {
 		return new ApplicationVersion();
 	}
