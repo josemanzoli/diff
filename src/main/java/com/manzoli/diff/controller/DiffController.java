@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -48,9 +48,9 @@ public class DiffController {
 	 * @return 415 - if it's not a valid jsonBase64
 	 * @return 500 - if some unrecognized error occurs.
 	 */
-	@PostMapping(path="/v1/diff/{ID}/left")
+	@PutMapping(path="/v1/diff/{ID}/left")
 	@ResponseBody
-	@ApiOperation(value = "Used to receive the Left JSON ", response = ResponseEntity.class, httpMethod = "POST")
+	@ApiOperation(value = "Used to receive the Left JSON ", response = ResponseEntity.class, httpMethod = "PUT")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
 			@ApiResponse(code = 415, message = "Unsupported Media Type"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
@@ -65,9 +65,9 @@ public class DiffController {
 	 * @return 415 - if it's not a valid jsonBase64
 	 * @return 500 - if some unrecognized error occurs.
 	 */
-	@PostMapping(path="/v1/diff/{ID}/right")
+	@PutMapping(path="/v1/diff/{ID}/right")
 	@ResponseBody
-	@ApiOperation(value = "Used to receive the Right JSON ", response = ResponseEntity.class, httpMethod = "POST")
+	@ApiOperation(value = "Used to receive the Right JSON ", response = ResponseEntity.class, httpMethod = "PUT")
 	@ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
 			@ApiResponse(code = 415, message = "Unsupported Media Type"),
 			@ApiResponse(code = 500, message = "Internal Server Error") })
