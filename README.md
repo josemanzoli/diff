@@ -1,9 +1,10 @@
 # Diff Scalable Web Project
 
 Project that implements three endpoints.
-	- One to receive a JSON base64 encoded binary data for the left side
-	- One to receive a JSON base64 encoded binary data for the right side
+	- One to receive a JSON base64 encoded binary data for the left side.
+	- One to receive a JSON base64 encoded binary data for the right side.
 	- One that gives a result of the diff between the received JSON.
+If you call more than one time the endpoints with the same ID to put the JSON base64 an update will be performed to this ID at the left or right side, depends on what endpoint you are calling.
 
 ## Requirements
 
@@ -41,3 +42,5 @@ After the start of the diff docker container, go to localhost:8080 and your brow
 * curl -X POST --header 'Content-Type: application/json' --header 'Accept: */*' -d 'eyJuYW1lIjogImJsYWJsYSJ9' 'http://localhost:8080/diff/v1/diff/1/right'
 * curl -X POST --header 'Content-Type: application/json' --header 'Accept: */*' -d 'eyJuYW1lIjogImJsYWJsYSJ9' 'http://localhost:8080/diff/v1/diff/1/left'
 * curl -X GET --header 'Accept: text/plain' 'http://localhost:8080/diff/v1/diff/1'
+
+
