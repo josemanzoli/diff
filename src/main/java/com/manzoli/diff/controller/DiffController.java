@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.manzoli.diff.enumeration.Side;
+import com.manzoli.diff.representation.ApplicationVersion;
 import com.manzoli.diff.representation.DiffResult;
 import com.manzoli.diff.service.DiffService;
 import com.manzoli.diff.service.exceptions.DiffJsonValidationException;
@@ -125,4 +126,10 @@ public class DiffController {
 		return ResponseEntity.status(HttpStatus.OK).body(diffResult);
 	}
 
+	@GetMapping(path = "/version")
+	@ResponseBody
+	@ApiOperation(value = "Return the version of the cte-classify project.", response = ApplicationVersion.class, httpMethod = "GET")
+	public ApplicationVersion checkVersion() {
+		return new ApplicationVersion();
+	}
 }
