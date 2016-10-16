@@ -1,0 +1,48 @@
+<configuration scan="true">
+
+    <property name="LOGS_PATH" value="/var/log/diff" />
+
+    <appender name="DIFF" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <file>${LOGS_PATH}/diff.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOGS_PATH}/diff-%d{yyyy-MM-dd}.log.gz
+            </fileNamePattern>
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d [REFID:%X{REFID}] [%level] [%thread] [%logger{0}] %msg%n</pattern>
+        </encoder>
+    </appender>
+    
+    <appender name="console" class="ch.qos.logback.classic.AsyncAppender">
+        <appender class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d [REFID:%X{REFID}] [%level] [%thread] [%logger{0}] %msg%n</pattern>
+            </encoder>
+        </appender>
+    </appender>
+
+    <appender name="ASYNC-DIFF" class="ch.qos.logback.classic.AsyncAppender" queueSize="10000" discardingThreshold="10">
+        <appender-ref ref="DIFF" />
+    </appender>
+    
+    <logger name="com.manzoli" additivity="false">
+        <level value="DEBUG" />
+        <appender-ref ref="DIFF" />
+        <appender-ref ref="console" />
+    </logger>
+
+    <logger name="org.springframework" additivity="false">
+        <level value="INFO" />
+        <appender-ref ref="console" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="ASYNC-DIFF" />
+        <appender-ref ref="console" />
+    </root>
+
+</configuration>

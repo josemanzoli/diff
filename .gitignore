@@ -1,0 +1,39 @@
+*.class
+*.log
+*.epoch
+*.lck
+test-output/
+bin
+
+# Package Files #
+*.jar
+*.war
+*.ear
+target/
+bin/
+.settings/
+.classpath
+.project
+.idea
+
+# Mac
+.DS_Store
+
+# Ignore all logfiles and tempfiles.
+/log/*.log
+/tmp
+
+nb*.xml
+faces*
+
+pom.xml.releaseBackup
+
+dump.rdb
+*.iml
+.floo
+.flooignore
+
+# Docker
+.env
+
+
