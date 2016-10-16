@@ -55,7 +55,7 @@ public class DiffServiceImpl implements DiffService {
 	}
 	
 	/**
-	 * Method that inserts or update a new document in received_jsons collection at MongoDB. 
+	 * Method that inserts or update a document in received_jsons collection at MongoDB.
 	 * @param id
 	 * @param jsonReceived
 	 * @param {@link Side}
@@ -63,13 +63,22 @@ public class DiffServiceImpl implements DiffService {
 	 */
 	@Override
 	public ReceivedJsons saveReceivedJson(Integer id, String jsonReceived, Side side){
-		ReceivedJsons receivedJsons = new ReceivedJsons();
-		receivedJsons.setId(id);
+		ReceivedJsons receivedJsons = receivedJsonsRepository.findById(id);
+		
+		if (receivedJsons == null) {
+			receivedJsons = new ReceivedJsons();
+			receivedJsons.setId(id);
+		}
+		
 		if (Side.LEFT.equals(side)) {
 			receivedJsons.setLeftJson(jsonReceived);
 		} else {
 			receivedJsons.setRightJson(jsonReceived);
 		}
+		
+		if (receivedJsons.getLeftJson() !=null && receivedJsons.getRightJson() != null){
+			makeComparisonBetweenJsons(receivedJsons);
+		} 
 		
 		return receivedJsonsRepository.save(receivedJsons);
 	}
@@ -142,7 +151,7 @@ public class DiffServiceImpl implements DiffService {
 	 */
 	private DiffResult createDiffResultFromReceiveidJsons(ReceivedJsons receivedJsons){
 		DiffResult diffResult = new DiffResult();
-		diffResult.setDiffStatus(receivedJsons.getDiffStatus());
+		diffResult.setDiffStatus(receivedJsons.getDiffStatus().getCompare());
 		diffResult.setDifferences(receivedJsons.getDifferences());
 		return diffResult;
 	}
@@ -156,7 +165,7 @@ public class DiffServiceImpl implements DiffService {
 		DiffResult diffResult = new DiffResult();
 		
 		if (receivedJsons.getLeftJson().equals(receivedJsons.getRightJson())){
-			diffResult.setDiffStatus(DiffStatus.EQUAL);
+			diffResult.setDiffStatus(DiffStatus.EQUAL.getCompare());
 			
 			receivedJsons.setDiffStatus(DiffStatus.EQUAL);
 			receivedJsonsRepository.save(receivedJsons);
@@ -164,7 +173,10 @@ public class DiffServiceImpl implements DiffService {
 			return toJson(diffResult);
 		}
 		
-		diffResult.setDiffStatus(DiffStatus.DIFFERENT_SIZE);
+		diffResult.setDiffStatus(DiffStatus.DIFFERENT_SIZE.getCompare());
+		
+		receivedJsons.setDiffStatus(DiffStatus.DIFFERENT_SIZE);
+		receivedJsonsRepository.save(receivedJsons);
 		
 		return toJson(diffResult);
 	}

@@ -20,15 +20,15 @@ import com.manzoli.diff.model.Difference;
 public class DiffResult {
 	
 	/** The result of the difference itself. {@link DiffStatus#EQUAL} {@link DiffStatus#DIFFERENT_SIZE} */ 
-	private DiffStatus diffStatus;
+	private String diffStatus;
 	private List<Difference> differences;
 
 	@JsonProperty("result")
-	public DiffStatus getDiffStatus() {
+	public String getDiffStatus() {
 		return diffStatus;
 	}
 
-	public void setDiffStatus(DiffStatus diffStatus) {
+	public void setDiffStatus(String diffStatus) {
 		this.diffStatus = diffStatus;
 	}
 

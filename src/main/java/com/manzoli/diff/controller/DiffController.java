@@ -115,7 +115,7 @@ public class DiffController {
 	public ResponseEntity<String> diffResult(@PathVariable("ID") Integer id){
 		String diffResult = null;
 		try {
-			diffService.getComparedJsons(id);
+			diffResult = diffService.getComparedJsons(id);
 		} catch (IdNotFoundException i) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(i.getMessage());
 		} catch (MissingJsonException m) {

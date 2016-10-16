@@ -144,6 +144,6 @@ public class DiffServiceImplTest {
 		
 		String diffResult = diffService.getComparedJsons(id);
 		
-		assertEquals(diffResult,"{\"result\":\"EQUAL\"}");
+		assertEquals(diffResult,"{\"result\":\"JSON's provided are equals\"}");
 	}
 }
