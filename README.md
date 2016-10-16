@@ -35,7 +35,7 @@ docker-compose up --build
 ```
 ## Swagger interface
 
-After the docker container start go to localhost:8080 and will redirect to the Swagger UI for you to try it out all the endpoints.
+After the start of the diff docker container, go to localhost:8080 and your browser will redirect to the Swagger UI for you to try it out all the endpoints.
 
 ## Using Curl
 * curl -X POST --header 'Content-Type: application/json' --header 'Accept: */*' -d 'eyJuYW1lIjogImJsYWJsYSJ9' 'http://localhost:8080/diff/v1/diff/1/right'
