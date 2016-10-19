@@ -107,7 +107,7 @@ public class DiffController {
 	 * @return 404 - if the id is not found
 	 * @return 500 - if some unrecognized error occurs.
 	 */
-	@GetMapping(path="/v1/diff/{ID}")
+	@GetMapping(path="/v1/diff/{ID}", produces="application/json")
 	@ResponseBody
 	@ApiOperation(value = "Used to get the diff result", response = ResponseEntity.class, httpMethod = "GET")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "DiffResult"),
@@ -126,7 +126,7 @@ public class DiffController {
 		return ResponseEntity.status(HttpStatus.OK).body(diffResult);
 	}
 
-	@GetMapping(path = "/version")
+	@GetMapping(path = "/version", produces="application/json")
 	@ResponseBody
 	@ApiOperation(value = "Return the version of the project.", response = ApplicationVersion.class, httpMethod = "GET")
 	public ApplicationVersion checkVersion() {
