@@ -19,6 +19,16 @@ public class Difference {
 	/** The size of the field inside the left JSON */
 	private Integer leftSize;
 	
+	public Difference(){
+		
+	}
+
+	public Difference(String field, Integer rightSize, Integer leftSize){
+		this.field = field;
+		this.rightSize = rightSize;
+		this.leftSize = leftSize;
+	}
+	
 	public String getField() {
 		return field;
 	}
