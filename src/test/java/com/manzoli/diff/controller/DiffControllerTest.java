@@ -14,10 +14,22 @@ import org.springframework.util.Base64Utils;
 
 import com.manzoli.diff.enumeration.Side;
 import com.manzoli.diff.model.ReceivedJsons;
+import com.manzoli.diff.repository.ReceivedJsonsRepository;
+import com.manzoli.diff.representation.ApplicationVersion;
 import com.manzoli.diff.service.DiffService;
 
+/**
+ * Unit tests for {@link DiffController} 
+ * 
+ * @author jmanzol
+ * @since 0.0.1
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class DiffControllerTest {
+	
+	@Mock
+	private ReceivedJsonsRepository receivedJsonsRepository;
 	
 	@Mock
 	private DiffService diffServiceMock;
@@ -95,5 +107,42 @@ public class DiffControllerTest {
 		ResponseEntity<Void> response  = diffController.rightJson(id, unsupportedMediaType);
 		
 		assertEquals(HttpStatus.UNSUPPORTED_MEDIA_TYPE_415, response.getStatusCodeValue());
+	}
+	
+	@Test
+	public void shouldReturn200Ok(){
+		Integer id = 1;
+		
+		ReceivedJsons receivedJsons = new ReceivedJsons();
+		receivedJsons.setId(id);
+		receivedJsons.setRightJson(json);
+		receivedJsons.setLeftJson(json);
+		
+		when(receivedJsonsRepository.findById(id)).thenReturn(receivedJsons);
+		when(receivedJsonsRepository.save(receivedJsons)).thenReturn(receivedJsons);
+		
+		ResponseEntity<String> response = diffController.diffResult(id);
+		assertEquals(response.getStatusCodeValue(), HttpStatus.OK_200);
+	}
+	
+	@Test
+	public void shouldReturnImplementationTitle() {
+		ApplicationVersion response  = diffController.checkVersion();
+		
+		assertEquals(getClass().getPackage().getImplementationTitle(), response.getImplementationTitle());
+	}
+	
+	@Test
+	public void shouldReturnImplementationVersion() {
+		ApplicationVersion response  = diffController.checkVersion();
+		
+		assertEquals(getClass().getPackage().getImplementationVersion(), response.getImplementationVersion());
+	}
+	
+	@Test
+	public void shouldReturnImplementationVendor() {
+		ApplicationVersion response  = diffController.checkVersion();
+		
+		assertEquals(getClass().getPackage().getImplementationVendor(), response.getImplementationVendor());
 	}
 }

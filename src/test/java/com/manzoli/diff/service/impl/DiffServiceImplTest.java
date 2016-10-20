@@ -15,20 +15,32 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.util.Base64Utils;
 
+import com.manzoli.diff.business.DiffBusiness;
 import com.manzoli.diff.enumeration.DiffStatus;
 import com.manzoli.diff.enumeration.Side;
 import com.manzoli.diff.model.ReceivedJsons;
 import com.manzoli.diff.repository.ReceivedJsonsRepository;
+import com.manzoli.diff.representation.DiffResult;
 import com.manzoli.diff.service.DiffService;
 import com.manzoli.diff.service.exceptions.DiffJsonValidationException;
 import com.manzoli.diff.service.exceptions.IdNotFoundException;
 import com.manzoli.diff.service.exceptions.MissingJsonException;
 
+/**
+ * Unit tests for {@link DiffService} 
+ * 
+ * @author jmanzol
+ * @since 0.0.1
+ *
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class DiffServiceImplTest {
 
 	@Mock
 	private ReceivedJsonsRepository receivedJsonsRepository;
+	
+	@Mock
+	private DiffBusiness diffBusiness;
 	
 	@InjectMocks
 	private DiffService diffService = new DiffServiceImpl();
@@ -131,7 +143,7 @@ public class DiffServiceImplTest {
 	}
 	
 	@Test
-	public void shouldCreateStringAnswer() throws IdNotFoundException, MissingJsonException{
+	public void shouldCreateStringEqualsAnswer() throws IdNotFoundException, MissingJsonException{
 		Integer id = 1;
 		
 		ReceivedJsons receivedJsons = new ReceivedJsons();
@@ -141,9 +153,40 @@ public class DiffServiceImplTest {
 		receivedJsons.setDiffStatus(DiffStatus.EQUAL);
 		
 		when(receivedJsonsRepository.findById(id)).thenReturn(receivedJsons);
+		when(diffBusiness.makeComparisonBetweenJsons(receivedJsons)).thenReturn(receivedJsons);
 		
-		String diffResult = diffService.getComparedJsons(id);
+		DiffResult diffResult = new DiffResult();
+		diffResult.setDiffStatus(receivedJsons.getDiffStatus().getCompare());
+		diffResult.setDifferences(receivedJsons.getDifferences());
+	
+		when(diffBusiness.createDiffResultFromReceiveidJsons(receivedJsons)).thenReturn(diffResult);
 		
-		assertEquals(diffResult,"{\"result\":\"JSON's provided are equals\"}");
+		String compare = diffService.getComparedJsons(id);
+		
+		assertEquals(compare,"{\"result\":\"JSON's provided are equals\"}");
+	}
+	
+	@Test
+	public void shouldCreateStringDifferentAnswer() throws IdNotFoundException, MissingJsonException{
+		Integer id = 1;
+		
+		ReceivedJsons receivedJsons = new ReceivedJsons();
+		receivedJsons.setId(id);
+		receivedJsons.setLeftJson("{\"name\":\"jsonBase64\"}");
+		receivedJsons.setRightJson("{\"name\":\"another super cool string with more complexity\"}");
+		receivedJsons.setDiffStatus(DiffStatus.DIFFERENT_SIZE);
+		
+		when(receivedJsonsRepository.findById(id)).thenReturn(receivedJsons);
+		when(diffBusiness.makeComparisonBetweenJsons(receivedJsons)).thenReturn(receivedJsons);
+		
+		DiffResult diffResult = new DiffResult();
+		diffResult.setDiffStatus(receivedJsons.getDiffStatus().getCompare());
+		diffResult.setDifferences(receivedJsons.getDifferences());
+	
+		when(diffBusiness.createDiffResultFromReceiveidJsons(receivedJsons)).thenReturn(diffResult);
+		
+		String compare = diffService.getComparedJsons(id);
+		
+		assertEquals(compare,"{\"result\":\"JSON's provided have different sizes\"}");
 	}
 }

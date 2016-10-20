@@ -11,7 +11,7 @@ import org.springframework.util.Base64Utils;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.json.JsonSanitizer;
-import com.manzoli.diff.enumeration.DiffStatus;
+import com.manzoli.diff.business.DiffBusiness;
 import com.manzoli.diff.enumeration.Side;
 import com.manzoli.diff.model.ReceivedJsons;
 import com.manzoli.diff.repository.ReceivedJsonsRepository;
@@ -35,6 +35,9 @@ public class DiffServiceImpl implements DiffService {
 
 	@Autowired
 	private ReceivedJsonsRepository receivedJsonsRepository;
+	
+	@Autowired
+	private DiffBusiness diffBusiness;
 	
 	/**
 	 * Method that validates if the String is a correct base64 JSON. 
@@ -77,7 +80,7 @@ public class DiffServiceImpl implements DiffService {
 		}
 		
 		if (receivedJsons.getLeftJson() !=null && receivedJsons.getRightJson() != null){
-			makeComparisonBetweenJsons(receivedJsons);
+			receivedJsons = diffBusiness.makeComparisonBetweenJsons(receivedJsons);
 		} 
 		
 		return receivedJsonsRepository.save(receivedJsons);
@@ -123,10 +126,12 @@ public class DiffServiceImpl implements DiffService {
 		}
 		
 		if (receivedJsons.getDiffStatus() != null){
-			return toJson(createDiffResultFromReceiveidJsons(receivedJsons));
+			return toJson(diffBusiness.createDiffResultFromReceiveidJsons(receivedJsons));
 		}
 		
-		return makeComparisonBetweenJsons(receivedJsons);
+		receivedJsons = diffBusiness.makeComparisonBetweenJsons(receivedJsons);
+		
+		return toJson(diffBusiness.createDiffResultFromReceiveidJsons(receivedJsons));
 	}
 
 	/**
@@ -142,42 +147,5 @@ public class DiffServiceImpl implements DiffService {
 			LOGGER.error(message + " {}", e.getMessage());
 			return message;
 		}
-	}
-	
-	/**
-	 * Create an representation object (Transfer Object) for the http answer of the third endpoint
-	 * @param receivedJsons
-	 * @return
-	 */
-	private DiffResult createDiffResultFromReceiveidJsons(ReceivedJsons receivedJsons){
-		DiffResult diffResult = new DiffResult();
-		diffResult.setDiffStatus(receivedJsons.getDiffStatus().getCompare());
-		diffResult.setDifferences(receivedJsons.getDifferences());
-		return diffResult;
-	}
-	
-	/**
-	 * Make the actual comparison between both JSON's received.
-	 * @param receivedJsons
-	 * @return
-	 */
-	private String makeComparisonBetweenJsons(ReceivedJsons receivedJsons) {
-		DiffResult diffResult = new DiffResult();
-		
-		if (receivedJsons.getLeftJson().equals(receivedJsons.getRightJson())){
-			diffResult.setDiffStatus(DiffStatus.EQUAL.getCompare());
-			
-			receivedJsons.setDiffStatus(DiffStatus.EQUAL);
-			receivedJsonsRepository.save(receivedJsons);
-			
-			return toJson(diffResult);
-		}
-		
-		diffResult.setDiffStatus(DiffStatus.DIFFERENT_SIZE.getCompare());
-		
-		receivedJsons.setDiffStatus(DiffStatus.DIFFERENT_SIZE);
-		receivedJsonsRepository.save(receivedJsons);
-		
-		return toJson(diffResult);
-	}
+	} 
 }

@@ -22,6 +22,15 @@ public class DiffResult {
 	/** The result of the difference itself. {@link DiffStatus#EQUAL} {@link DiffStatus#DIFFERENT_SIZE} */ 
 	private String diffStatus;
 	private List<Difference> differences;
+	
+	public DiffResult(){
+		
+	}
+	
+	public DiffResult(String diffStatus, List<Difference> differences){
+		this.diffStatus = diffStatus;
+		this.differences = differences;
+	}
 
 	@JsonProperty("result")
 	public String getDiffStatus() {
