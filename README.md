@@ -8,9 +8,9 @@ Project that implements three endpoints.
 If you call more than one time the endpoints with the same ID to put the JSON base64, an update will be performed to this ID at the left or right side, depends on what endpoint you are calling.
 
 ## Sugestion for improvement
-- Write integration tests;
+- Create Integration tests with RestAssured and cucumber-jvm in a separated project to write business scenarios;
 - Better Log entries;
-- Use of reflection to pass field by field at the JSON tree and find where exactly is the difference between the JSON's;
+- Improve the method DiffBusiness.parseAndCompareGenericJson(String rightJson, String leftJson) to go deep inside the values of the JSON tree;
 - More Unit tests;
 
 ## Requirements
