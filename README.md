@@ -46,9 +46,9 @@ docker-compose up --build
 After the start of the diff docker container, go to localhost:8080 and your browser will redirect to the Swagger UI for you to try it out all the endpoints.
 
 ## Using Curl
-* curl -X PUT --header 'Content-Type: application/json' --header 'Accept: */*' -d 'eyJmaXJzZmllbGQiOiAidGVzdEVxdWFsIiwgIm5hbWUiOiJhbm90aGVyIHN1cGVyIGNvb2wgc3RyaW5nIHdpdGggbW9yZSBjb21wbGV4aXR5IiwgImxlZnRGaWVsZCI6ICJ0ZXN0In0=' 'http://localhost:8080/diff/v1/diff/1/left'
-* curl -X PUT --header 'Content-Type: application/json' --header 'Accept: */*' -d 'eyJmaXJzZmllbGQiOiAidGVzdEVxdWFsIiwgIm5hbWUiOiJqc29uQmFzZTY0IiwgInJpZ2h0RmllbGQiOiAidGVzdCJ9' 'http://localhost:8080/diff/v1/diff/1/right'
-* curl -X GET --header 'Accept: application/json' 'http://localhost:8080/diff/v1/diff/1'
+```curl -X PUT --header 'Content-Type: application/json' --header 'Accept: */*' -d 'eyJmaXJzZmllbGQiOiAidGVzdEVxdWFsIiwgIm5hbWUiOiJhbm90aGVyIHN1cGVyIGNvb2wgc3RyaW5nIHdpdGggbW9yZSBjb21wbGV4aXR5IiwgImxlZnRGaWVsZCI6ICJ0ZXN0In0=' 'http://localhost:8080/diff/v1/diff/1/left'```
+``` curl -X PUT --header 'Content-Type: application/json' --header 'Accept: */*' -d 'eyJmaXJzZmllbGQiOiAidGVzdEVxdWFsIiwgIm5hbWUiOiJqc29uQmFzZTY0IiwgInJpZ2h0RmllbGQiOiAidGVzdCJ9' 'http://localhost:8080/diff/v1/diff/1/right'````
+``` curl -X GET --header 'Accept: application/json' 'http://localhost:8080/diff/v1/diff/1' ```
 The Response Body for this get Curl should be
 ```
 {
