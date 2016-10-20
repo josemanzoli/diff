@@ -46,9 +46,9 @@ docker-compose up --build
 After the start of the diff docker container, go to localhost:8080 and your browser will redirect to the Swagger UI for you to try it out all the endpoints.
 
 You can use for testing if you want these parameters:
-```id = 1 for both JSON's```
-```jsonBase64 for the left call = eyJmaXJzZmllbGQiOiAidGVzdEVxdWFsIiwgIm5hbWUiOiJhbm90aGVyIHN1cGVyIGNvb2wgc3RyaW5nIHdpdGggbW9yZSBjb21wbGV4aXR5IiwgImxlZnRGaWVsZCI6ICJ0ZXN0In0=```
-```jsonBase64 for the right call = eyJmaXJzZmllbGQiOiAidGVzdEVxdWFsIiwgIm5hbWUiOiJqc29uQmFzZTY0IiwgInJpZ2h0RmllbGQiOiAidGVzdCJ9```
+*```id = 1 for both JSON's```
+*```jsonBase64 for the left call = eyJmaXJzZmllbGQiOiAidGVzdEVxdWFsIiwgIm5hbWUiOiJhbm90aGVyIHN1cGVyIGNvb2wgc3RyaW5nIHdpdGggbW9yZSBjb21wbGV4aXR5IiwgImxlZnRGaWVsZCI6ICJ0ZXN0In0=```
+*```jsonBase64 for the right call = eyJmaXJzZmllbGQiOiAidGVzdEVxdWFsIiwgIm5hbWUiOiJqc29uQmFzZTY0IiwgInJpZ2h0RmllbGQiOiAidGVzdCJ9```
 
 ## Using Curl
 * ```curl -X PUT --header 'Content-Type: application/json' --header 'Accept: */*' -d 'eyJmaXJzZmllbGQiOiAidGVzdEVxdWFsIiwgIm5hbWUiOiJhbm90aGVyIHN1cGVyIGNvb2wgc3RyaW5nIHdpdGggbW9yZSBjb21wbGV4aXR5IiwgImxlZnRGaWVsZCI6ICJ0ZXN0In0=' 'http://localhost:8080/diff/v1/diff/1/left'```
